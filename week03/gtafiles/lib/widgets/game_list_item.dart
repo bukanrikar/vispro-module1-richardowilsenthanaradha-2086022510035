@@ -5,13 +5,11 @@ import '../theme/app_theme.dart';
 class GameListItem extends StatelessWidget {
   final Game game;
   final ValueChanged<GameStatus> onStatusChanged;
-  final VoidCallback onDelete;
 
   const GameListItem({
     super.key,
     required this.game,
     required this.onStatusChanged,
-    required this.onDelete,
   });
 
   Color _statusColor(BuildContext context) {
@@ -59,7 +57,6 @@ class GameListItem extends StatelessWidget {
           },
           icon: const Icon(Icons.more_vert),
         ),
-        onLongPress: onDelete,
       ),
     );
   }

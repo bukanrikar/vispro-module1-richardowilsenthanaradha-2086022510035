@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/game.dart';
 import '../state/game_backlog_state.dart';
-import '../widgets/add_game_button.dart';
 import '../widgets/game_list.dart';
 import '../widgets/status_filter_chips.dart';
 
@@ -86,7 +85,10 @@ class _GameBacklogScreenState extends State<GameBacklogScreen> {
           );
         },
       ),
-      floatingActionButton: AddGameButton(onPressed: _showAddDialog),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddDialog,
+        child: const Icon(Icons.add),
+        ),
     );
   }
 }

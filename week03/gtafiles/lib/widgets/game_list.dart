@@ -6,12 +6,14 @@ class GameList extends StatelessWidget {
   final List<Game> games;
   final void Function(String id, GameStatus status) onStatusChanged;
   final ValueChanged<String> onDelete;
+
   const GameList({
     super.key,
     required this.games,
     required this.onStatusChanged,
     required this.onDelete,
   });
+
   @override
   Widget build(BuildContext context) {
     if (games.isEmpty) {
@@ -19,14 +21,29 @@ class GameList extends StatelessWidget {
         child: Text('Belum ada game. Tambahkan sekarang!'),
       );
     }
+
     return ListView.builder(
       itemCount: games.length,
       itemBuilder: (context, index) {
         final game = games[index];
-        return GameListItem(
-          game: game,
-          onStatusChanged: (status) => onStatusChanged(game.id, status),
-          onDelete: () => onDelete(game.id),
+
+        return Dismissible(
+          key: ValueKey(game.id),
+          direction: DismissDirection.endToStart,
+          onDismissed: (_) => onDelete(game.id),
+          background: Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 24),
+            color: Theme.of(context).colorScheme.errorContainer,
+            child: Icon(
+              Icons.delete_outline,
+              color: Theme.of(context).colorScheme.onErrorContainer,
+            ),
+          ),
+          child: GameListItem(
+            game: game,
+            onStatusChanged: (status) => onStatusChanged(game.id, status),
+          ),
         );
       },
     );
