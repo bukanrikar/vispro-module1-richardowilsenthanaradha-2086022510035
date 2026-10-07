@@ -56,11 +56,16 @@ class GameStatusColors extends ThemeExtension<GameStatusColors> {
 }
 
 class AppTheme {
-  static const Color seedColor = Color(0xFF5B4B8A);
+  static const Color seedColor = Color(0xFF000000);
+  static const DynamicSchemeVariant _variant =
+      DynamicSchemeVariant.monochrome;
 
   static ThemeData light() {
     return _build(
-      ColorScheme.fromSeed(seedColor: seedColor),
+      ColorScheme.fromSeed(
+        seedColor: seedColor,
+        dynamicSchemeVariant: _variant,
+      ),
     );
   }
 
@@ -69,6 +74,7 @@ class AppTheme {
       ColorScheme.fromSeed(
         seedColor: seedColor,
         brightness: Brightness.dark,
+        dynamicSchemeVariant: _variant,
       ),
     );
   }
