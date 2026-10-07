@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
 import '../models/game.dart';
+import '../theme/app_theme.dart';
 
 class GameListItem extends StatelessWidget {
   final Game game;
   final ValueChanged<GameStatus> onStatusChanged;
   final VoidCallback onDelete;
+
   const GameListItem({
     super.key,
     required this.game,
     required this.onStatusChanged,
     required this.onDelete,
   });
+
   Color _statusColor(BuildContext context) {
-    switch (game.status) {
-      case GameStatus.playing:
-        return Colors.blue;
-      case GameStatus.finished:
-        return Colors.green;
-      case GameStatus.dropped:
-        return Colors.red;
-      case GameStatus.backlog:
-        return Colors.orange;
-    }
+    return Theme.of(context)
+        .extension<GameStatusColors>()!
+        .forStatus(game.status);
   }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final statusColor = _statusColor(context);
+
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: _statusColor(context),
+          backgroundColor: statusColor,
+          foregroundColor: theme.colorScheme.onPrimary,
           child: Text(game.title[0].toUpperCase()),
         ),
-        title: Text(game.title),
-        subtitle: Text(game.status.name),
+        title: Text(
+          game.title,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.2,
+          ),
+        ),
+        subtitle: Text(
+          game.status.name.toUpperCase(),
+          style: theme.textTheme.labelMedium?.copyWith(
+            color: statusColor,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.6,
+          ),
+        ),
         trailing: PopupMenuButton<GameStatus>(
           onSelected: onStatusChanged,
           itemBuilder: (context) {
